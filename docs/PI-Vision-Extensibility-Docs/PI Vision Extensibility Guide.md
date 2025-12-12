@@ -90,7 +90,7 @@ The symbols image file should be stored in the `icons` folder under:
 
 `INSTALLATION\_FOLDER\Scripts\app\editor\symbols\ext\icons`
 
-If you have external library files, create a `libraries` subfolder under the `ext` folder and place the external library files in that subfolder. Library files (.js) that are not directly within the `libraries` folder and instead within a subfolder will not be loaded by PI Vision.
+If you have external library files, create a `libraries` subfolder under the `ext` folder and place the external library files in that subfolder. Library files (.js) can be placed either directly within the `libraries` folder or within subfolders of the `libraries` folder.
 
 [Back to top](#top)
 
@@ -121,11 +121,27 @@ to
 <compilation debug="true" targetFramework="4.8"/>
 ```
 
-Debug mode disables the PI Vision bundling and minification system; this makes debugging your custom symbol easier.
+Debug mode disables the PI Vision bundling system; this makes debugging your custom symbol easier. It does not disable the PI Vision minification system (see [Managing JavaScript Minification] for more information).
 
-Note that in debug mode, PI Vision does not process minified JavaScript files.
+[Back to top](#top)
 
-The PI Vision minifier may not be compatible with all JavaScript features, emitting code that does not run in production. You can provide your own minimized file by deploying a *.min.js file alongside your source code. If such files are present, PI Vision will bypass its own minimifier and bundle these files instead.
+### Managing JavaScript Minification
+
+Regardless of the debug setting, JavaScript files in the `ext` folder will always be processed by the PI Vision minifier. The PI Vision minifier may not be compatible with all JavaScript features, emitting code that does not run in production.
+
+To help identify or work around minification issues, PI Vision offers a configuration setting to control minification of extensibility JavaScript files. The PI Vision minifier can be turned off by adding the `DisableExtensibilityJSMinification` setting to the `appSettings` section of the `web.config` file in your PI Vision installation folder:
+
+```
+<appSettings> 
+
+  ... 
+
+  <add key="DisableExtensibilityJSMinification" value="true" /> 
+
+</appSettings>
+```
+
+With the PI Vision minifier turned off, you can provide your own minimized file by deploying a *.min.js file alongside your source code. Note that PI Vision only processes *.min.js files when debug mode is turned off.
 
 [Back to top](#top)
 
